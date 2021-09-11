@@ -1,0 +1,4 @@
+##### Admin CMS APIs
+
+### root api
+GET http://localhost:8000/

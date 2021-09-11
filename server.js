@@ -1,10 +1,22 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
+import morgan from "morgan"
 const app = express();
 import helmet from 'helmet'
 
-const PORT = process.env.PORT || 8000;
 
+const PORT = process.env.PORT || 8000;
+// connect mongodb
+import mongoClient from "./config/db.js";
+mongoClient();
 app.use(helmet());
+app.use(morgan("tiny"))
+
+
+import userRouter from "./routers/userRouter.js";
+
+app.use("/api/v1/user", userRouter);
 
 app.use("/", (req, res) => {
     res.json({ message:"hello world" })
