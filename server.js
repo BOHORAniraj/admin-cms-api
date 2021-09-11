@@ -11,7 +11,10 @@ const PORT = process.env.PORT || 8000;
 import mongoClient from "./config/db.js";
 mongoClient();
 app.use(helmet());
-app.use(morgan("tiny"))
+app.use(morgan("tiny"));
+app.use(express.urlencoded());
+app.use(express.json());
+
 
 
 import userRouter from "./routers/userRouter.js";

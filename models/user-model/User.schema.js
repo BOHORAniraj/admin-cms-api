@@ -3,13 +3,13 @@ import mongoose from 'mongoose'
 const UserSchema = mongoose.Schema({
     fname: {
         type: String,
-        require: true,
+        required: true,
         default: "",
         max:20
     },
     lname: {
         type: String,
-        require: true,
+        required: true,
         default: "",
         max:20
     },
@@ -19,23 +19,30 @@ const UserSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        require: true,
+        required: true,
         default: "",
         max: 20,
         unique: true,
         index:1,
         
     },
+    isEmailConfirmed: {
+        type:Boolean,
+        required: true,
+        default: false,
+        min:8,
+        
+    },
     password: {
         type: String,
-        require: true,
+        required: true,
         default: "",
         min:8,
         
     },
     phone: {
         type: String,
-        require: true,
+        required: true,
         
     },
     address: {
@@ -47,7 +54,7 @@ const UserSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        require: true,
+        required: true,
         default:"user",
     },
 
