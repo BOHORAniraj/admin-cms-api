@@ -2,7 +2,7 @@ import express from 'express'
 
 import { createUser } from '../models/user-model/User.model.js'
 import {createAdminUserValidation} from '../middlewares/formValidation.middleware.js'
-
+import { hashPassword } from '../helpers/bcrypt.helper.js'
 const Router = express.Router()
 
 // Router.all("/", (req, res) => {
@@ -15,17 +15,22 @@ Router.post("/",createAdminUserValidation, async (req, res) => {
         // todo
         // server side validation
         // encrypt password
+        const hashPass = hashPassword(req.body.password);
+        if (hashPass) {
+            req.body.password = hashPass
+            console.log(hashPass)
 
-        const result = await createUser(req.body)
+            const result = await createUser(req.body)
         
-        if (result?._id) {
+            if (result?._id) {
 
-            //unique activation 
+                //unique activation 
 
-          return  res.json({
-                state: 'success',
-                message:'New user has been created successfully! we have send a email conformation to your email ,please check your email and follow the instructon to activate your account',
-            })
+                return res.json({
+                    state: 'success',
+                    message: 'New user has been created successfully! we have send a email conformation to your email ,please check your email and follow the instructon to activate your account',
+                })
+            }
         }
         res.json({
             state: 'error',
