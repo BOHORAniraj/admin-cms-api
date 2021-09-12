@@ -28,9 +28,7 @@ const UserSchema = mongoose.Schema({
     },
     isEmailConfirmed: {
         type:Boolean,
-        required: true,
-        default: false,
-        min:8,
+        default:"false",
         
     },
     password: {

@@ -3,6 +3,11 @@ import express from 'express'
 import { createUser } from '../models/user-model/User.model.js'
 import {createAdminUserValidation} from '../middlewares/formValidation.middleware.js'
 import { hashPassword } from '../helpers/bcrypt.helper.js'
+
+import { createUniqueEmailConfirmation } from '../models/session/Session.model.js';
+import { emailProcessor } from '../helpers/email.helper.js';
+
+
 const Router = express.Router()
 
 // Router.all("/", (req, res) => {
@@ -10,7 +15,7 @@ const Router = express.Router()
 
 // })
 Router.post("/",createAdminUserValidation, async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     try {
         // todo
         // server side validation
@@ -18,13 +23,25 @@ Router.post("/",createAdminUserValidation, async (req, res) => {
         const hashPass = hashPassword(req.body.password);
         if (hashPass) {
             req.body.password = hashPass
-            console.log(hashPass)
 
-            const result = await createUser(req.body)
+            const {_id,fname,email} = await createUser(req.body)
         
-            if (result?._id) {
+            if (_id) {
 
                 //unique activation 
+                const { pin } = await createUniqueEmailConfirmation(email);
+
+                if (pin) {
+                    const forSendingEmail = {
+                        fname,
+                        email,
+                        pin,
+                        
+                    }
+                    
+                
+                emailProcessor(forSendingEmail);
+            }
 
                 return res.json({
                     state: 'success',
@@ -38,8 +55,8 @@ Router.post("/",createAdminUserValidation, async (req, res) => {
         })
     } catch (error) {
         let msg = "error unable to create new user"
-        console.log(error.message)
-        if(error.message.include("E11000 duplicate key error collection"))
+        console.log(error)
+        // if(error.message.include("E11000 duplicate key error collection"))
         res.json({
             state: "error",
             message:msg,
