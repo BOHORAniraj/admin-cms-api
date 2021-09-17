@@ -1,25 +1,17 @@
 import express from 'express'
 
-import { createUser } from '../models/user-model/User.model.js'
-import {createAdminUserValidation} from '../middlewares/formValidation.middleware.js'
+import { createUser, verifyEmail } from '../models/user-model/User.model.js'
+import {adminEmailVerification, createAdminUserValidation} from '../middlewares/formValidation.middleware.js'
 import { hashPassword } from '../helpers/bcrypt.helper.js'
 
-import { createUniqueEmailConfirmation } from '../models/session/Session.model.js';
-import { emailProcessor } from '../helpers/email.helper.js';
+import { createUniqueEmailConfirmation, deleteInfo, findAdminEmailVerification } from '../models/session/Session.model.js';
+import { emailProcessor, sendEmailVerificationConfirmation, sendEmailVerificationLink } from '../helpers/email.helper.js';
 
 
 const Router = express.Router()
-
-// Router.all("/", (req, res) => {
-//     console.log(req.body);
-
-// })
 Router.post("/",createAdminUserValidation, async (req, res) => {
-    // console.log(req.body);
+   
     try {
-        // todo
-        // server side validation
-        // encrypt password
         const hashPass = hashPassword(req.body.password);
         if (hashPass) {
             req.body.password = hashPass
@@ -40,7 +32,7 @@ Router.post("/",createAdminUserValidation, async (req, res) => {
                     }
                     
                 
-                emailProcessor(forSendingEmail);
+                sendEmailVerificationLink(forSendingEmail);
             }
 
                 return res.json({
@@ -62,6 +54,44 @@ Router.post("/",createAdminUserValidation, async (req, res) => {
             message:msg,
         });
 
+    }
+})
+
+// email verification
+Router.patch("/email-verification", adminEmailVerification, async (req, res) => {
+    try {
+        const result = await findAdminEmailVerification(req.body);
+        console.log(result,"my veri email")
+        if (result?._id) {
+           
+            const data = await verifyEmail(result.email)
+            console.log(data,"my verify dta")
+            if (data?._id) {
+                deleteInfo(req.body);
+                sendEmailVerificationConfirmation({
+                    fname: data.fname,
+                    email: data.email,
+                })
+                return res.json({
+                    status: "success",
+                    message:"your email has been verified you may login now",
+                })
+
+            }
+
+            
+        }
+        res.json({
+            status: "error",
+            message:"your pin or email is invalid",
+        })
+        
+    } catch (error) {
+        res.json({
+            status: "error",
+            message:"Error , unable to verify the email, please try again later"
+        })
+        
     }
 })
 

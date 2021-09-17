@@ -26,3 +26,22 @@ export const createUniqueEmailConfirmation = async email => {
         
     }
 }
+export const findAdminEmailVerification = async (filterobj) => {
+    try {
+        const result = await SessionSchema.findOne(filterobj);
+        return result;
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+}
+
+export const deleteInfo = async deleteObj => {
+    try {
+        const result = await SessionSchema.findOneAndDelete(deleteObj)
+        return result
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+}

@@ -9,3 +9,18 @@ export const createUser = newUser => {
         
     }
 }
+
+export const verifyEmail =  email => {
+    try {
+        const result = UserSchema.findOneAndUpdate(
+            { email },
+            { isEmailConfirmed: true },
+            { new: true }
+        )
+        return result;
+        
+    } catch (error) {
+        
+        throw new Error(error) 
+    }
+}

@@ -10,13 +10,22 @@ Content-Type: application/json
 {
     "fname":"niraj",
     "lname": "Bohora",
-    "email": "hsadsssadsasasn@sdfsadasghjo.com",
+    "email": "hsn@so.com",
     "password":"1234567890",
     "phone": "0416429277",
     "address":"sydney,NSW",
     "gender":"male",
     "role":"user"
 
+}
 
 
+
+### verify admin email 
+PATCH http://localhost:8000/api/v1/user/email-verification
+Content-Type: application/json
+
+{
+    "pin": "937327",
+    "email":"hsn@so.com"
 }

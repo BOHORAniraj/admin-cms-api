@@ -4,6 +4,7 @@ import express from "express";
 import morgan from "morgan"
 const app = express();
 import helmet from 'helmet'
+import cors from 'cors';
 
 
 const PORT = process.env.PORT || 8000;
@@ -14,6 +15,7 @@ app.use(helmet());
 app.use(morgan("tiny"));
 app.use(express.urlencoded());
 app.use(express.json());
+app.use(cors())
 
 
 
