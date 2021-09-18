@@ -29,3 +29,15 @@ Content-Type: application/json
     "pin": "937327",
     "email":"hsn@so.com"
 }
+
+### get catalog
+GET http://localhost:8000/api/v1/catalog
+
+### Post new category
+
+POST http://localhost:8000/api/v1/catalog
+Content-Type: application/json
+
+{
+    "name":
+}
