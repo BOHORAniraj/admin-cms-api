@@ -3,41 +3,72 @@
 ### root api
 GET http://localhost:8000/
 
-###create new user
+### Create new user
 POST  http://localhost:8000/api/v1/user
 Content-Type: application/json
 
 {
-    "fname":"niraj",
-    "lname": "Bohora",
-    "email": "hsn@so.com",
-    "password":"1234567890",
-    "phone": "0416429277",
-    "address":"sydney,NSW",
-    "gender":"male",
-    "role":"user"
+  "fname": "niraj",
+  "lname": "bohora",
+  "email": "aq@q.com",
+  "dob": "2009-4-3",
+  "password": "123456qqqq",
+  "phone": "041000000",
+  "address" : "Sydne , NSW",
+  "gender": "male"
+  
 
 }
+ 
 
-
-
-### verify admin email 
-PATCH http://localhost:8000/api/v1/user/email-verification
+### verify admin email
+PATCH   http://localhost:8000/api/v1/user/email-verification
 Content-Type: application/json
 
 {
-    "pin": "937327",
-    "email":"hsn@so.com"
+  "pin": "682848",
+  "email": "aq@q.com"
 }
 
-### get catalog
-GET http://localhost:8000/api/v1/catalog
 
+### login user
+Post  http://localhost:8000/api/v1/user/login
+Content-Type: application/json
+
+{
+  "email": "aq@q.com",
+  "password": "1234566gdg"
+}
+
+
+
+# category router
+### get all or single categories
+GET  http://localhost:8000/api/v1/category/
+ 
+ 
 ### Post new category
-
-POST http://localhost:8000/api/v1/catalog
+POST http://localhost:8000/api/v1/category
 Content-Type: application/json
 
 {
-    "name":
+  "name": "Furniture",
+  "parentCat": null
 }
+
+### update category
+PATCH http://localhost:8000/api/v1/category
+Content-Type: application/json
+
+{
+  "_id": "61452d86816786f35bf3a163",
+  "name": "Furnitures",
+  "parentCat": null
+}
+
+
+### Delete category
+DELETE   http://localhost:8000/api/v1/category/61452aadf990131366c010f3
+
+
+

@@ -1,6 +1,6 @@
 import express from "express";
 const Router = express.Router();
-import { creatUser, verifyEmail } from "../models/user-model/User.model.js";
+import { createUser, verifyEmail } from "../models/user-model/User.model.js";
 import {
 	createUniqueEmailConfirmation,
 	findAdminEmailVerification,
@@ -27,7 +27,7 @@ Router.post("/", createAdminUserValidation, async (req, res) => {
 		if (hashPass) {
 			req.body.password = hashPass;
 
-			const { _id, fname, email } = await creatUser(req.body);
+			const { _id, fname, email } = await createUser(req.body);
 
 			if (_id) {
 				const { pin } = await createUniqueEmailConfirmation(email);
@@ -100,4 +100,23 @@ Router.patch(
 		}
 	}
 );
+
+Router.post("/login", loginUserFormValidation, async (req, res) => {
+	try {
+		const { email, password } = req.body;
+
+		
+		const user = await getUserByEmail(email);
+		
+	console.log(user);
+	if(user?.id)
+
+	console
+		
+	} catch (error) {
+		
+	}
+	
+	
+})
 export default Router;

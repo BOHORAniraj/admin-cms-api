@@ -53,6 +53,8 @@ Router.post("/", newCategoryValidation, async (req, res) => {
 	try {
 		const slug = slugify(req.body.name, { lower: true });
 
+		req.body.parentCat = req.body.parentCat ? req.body.parentCat : null;
+
 		const result = await addCategory({ ...req.body, slug });
 
 		const status = result?._id ? "success" : "error";
