@@ -1,20 +1,27 @@
-import express from "express";
+import express, { json } from "express";
 const Router = express.Router();
-import { createUser, verifyEmail } from "../models/user-model/User.model.js";
+import {
+	creatUser,
+	verifyEmail,
+	getUserByEmail,
+} from "../models/user-model/User.model.js";
 import {
 	createUniqueEmailConfirmation,
 	findAdminEmailVerification,
 	deleteInfo,
-} from "../models/session/Session.model.js";
+} from "../models/rest-pin/Pin.model.js";
 import {
 	createAdminUserValidation,
 	adminEmailVerificationValidation,
+	loginUserFormValidation,
 } from "../middlewares/formValidation.middleware.js";
-import { hashPassword } from "../helpers/bcrypt.helper.js";
+import { hashPassword, comparePassword } from "../helpers/bcrypt.helper.js";
 import {
 	sendEmailVerificationLink,
 	sendEmailVerificationConfirmation,
 } from "../helpers/email.helper.js";
+
+import { getJWTs } from "../helpers/jwt.helper.js";
 
 Router.all("/", (req, res, next) => {
 	next();
@@ -27,7 +34,7 @@ Router.post("/", createAdminUserValidation, async (req, res) => {
 		if (hashPass) {
 			req.body.password = hashPass;
 
-			const { _id, fname, email } = await createUser(req.body);
+			const { _id, fname, email } = await creatUser(req.body);
 
 			if (_id) {
 				const { pin } = await createUniqueEmailConfirmation(email);
@@ -101,22 +108,40 @@ Router.patch(
 	}
 );
 
+// user login
 Router.post("/login", loginUserFormValidation, async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
-		
 		const user = await getUserByEmail(email);
-		
-	console.log(user);
-	if(user?.id)
 
-	console
-		
+		if (user?._id) {
+			///check if password valid or not
+			const isPassMatch = comparePassword(password, user.password);
+			if (isPassMatch) {
+				// get jwts then send to the client
+				const jwts = await getJWTs({ _id: user._id, email: user.email });
+				user.password = undefined;
+
+				return res.json({
+					status: "success",
+					message: "login success",
+					jwts,
+					user,
+				});
+			}
+		}
+
+		res.status(401).json({
+			status: "error",
+			message: "unauthorized",
+		});
 	} catch (error) {
-		
+		console.log(error);
+		res.status(500).json({
+			status: "error",
+			message: "Error, unable to login now, please try again later",
+		});
 	}
-	
-	
-})
+});
 export default Router;

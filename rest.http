@@ -8,11 +8,11 @@ POST  http://localhost:8000/api/v1/user
 Content-Type: application/json
 
 {
-  "fname": "niraj",
-  "lname": "bohora",
-  "email": "aq@q.com",
-  "dob": "2009-4-3",
-  "password": "123456qqqq",
+  "fname": "Prem",
+  "lname": "Acharya",
+  "email": "a@a.com",
+  "dob": "2021-10-10",
+  "password": "12345678",
   "phone": "041000000",
   "address" : "Sydne , NSW",
   "gender": "male"
@@ -26,23 +26,21 @@ PATCH   http://localhost:8000/api/v1/user/email-verification
 Content-Type: application/json
 
 {
-  "pin": "682848",
-  "email": "aq@q.com"
+  "pin": "731977",
+  "email": "bsssc1f@ba.com"
 }
 
-
-### login user
-Post  http://localhost:8000/api/v1/user/login
+### Login user
+POST   http://localhost:8000/api/v1/user/login
 Content-Type: application/json
 
 {
-  "email": "aq@q.com",
-  "password": "1234566gdg"
+  "email": "a@a.com",
+  "password": "12345678"
 }
 
 
-
-# category router
+#################### category router
 ### get all or single categories
 GET  http://localhost:8000/api/v1/category/
  
@@ -70,5 +68,13 @@ Content-Type: application/json
 ### Delete category
 DELETE   http://localhost:8000/api/v1/category/61452aadf990131366c010f3
 
+# Electronic
+# => Monile
+# => Monitors
 
+# Accessories
+
+# Grocery
+#=> Meat
+# => Milk
 
