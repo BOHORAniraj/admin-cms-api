@@ -21,6 +21,26 @@ export const createUniqueEmailConfirmation = async email => {
 		throw new Error(error);
 	}
 };
+export const createUniqueOtp = async ({ email, type }) => {
+	try {
+		const pin = randomNumberGenerator(pinLength);
+
+		if (!pin || !email) {
+			return false;
+		}
+
+		const newOtp = {
+			pin,
+			email,
+			type,
+		};
+		const result = await PinSchema(newOtp).save();
+
+		return result;
+	} catch (error) {
+		throw new Error(error);
+	}
+};
 
 export const findAdminEmailVerification = async filterObj => {
 	try {

@@ -79,3 +79,49 @@ export const sendEmailVerificationConfirmation = emailObj => {
 	};
 	emailProcessor(obj);
 };
+
+// send the email notification for password update message
+export const sendPasswordUpdateNotification = emailObj => {
+	const { fname = "there" } = emailObj;
+
+	const obj = {
+		...emailObj,
+		subject: "Your password has been update",
+		text: `Hi ${fname}, Your password has just been update, if you did not make this change, please contact us immediately.`,
+		html: `
+    Hello ${fname},
+    <br/> 
+		Your password has just been update, if you did not make this change, please contact us immediately <br/><br/> 
+    <br/><br/>
+    Thank you<br/><br/>  
+    Kind Regards,<br/> 
+    --some company information --- 
+    `,
+	};
+	emailProcessor(obj);
+};
+
+// send the email notification for password update message
+export const sendPasswordResetOTP = emailObj => {
+	const { fname, otp } = emailObj;
+
+	const obj = {
+		...emailObj,
+		subject: "Rest password OTP",
+		text: `Hi ${fname}, You the following OTP to reset your password. ${otp}. The otp will expire in 15 min`,
+		html: `
+    Hello ${fname},
+    <br/> 
+		You the following OTP to reset your password. 
+		<br/><br/> 
+		${otp}
+		<br/><br/> 
+		 The otp will expire in 15 min 
+    <br/><br/>
+    Thank you<br/><br/>  
+    Kind Regards,<br/> 
+    --some company information --- 
+    `,
+	};
+	emailProcessor(obj);
+};

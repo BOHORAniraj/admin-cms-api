@@ -25,6 +25,7 @@ Router.all("/", (req, res, next) => {
 //return all or single category
 Router.get("/:_id?", async (req, res) => {
 	try {
+		console.log("was herer");
 		const { _id } = req.params;
 		let result;
 

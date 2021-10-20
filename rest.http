@@ -6,6 +6,7 @@ GET http://localhost:8000/
 ### Create new user
 POST  http://localhost:8000/api/v1/user
 Content-Type: application/json
+ 
 
 {
   "fname": "Prem",
@@ -36,8 +37,41 @@ Content-Type: application/json
 
 {
   "email": "a@a.com",
-  "password": "12345678"
+  "password": "1aA!1111"
 }
+
+
+### Logout user
+POST   http://localhost:8000/api/v1/user/logout
+Content-Type: application/json
+
+{
+ "accessJWT": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2MzI1NDEwNTQsImV4cCI6MTYzMjU0MTk1NH0.EjcQbQTCAHgxTKeU6FZj54VUlqxTfKrCc0pCjrv8Ag4",
+    "refreshJWT": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2MzI1NDEwNTQsImV4cCI6MTYzNTEzMzA1NH0.yOE5R_rXG2g9FrQFroDgf13YkdfEbY4bvWjgmJ5fD_Y"
+  }
+
+### admin update password
+POST   http://localhost:8000/api/v1/user/password-update
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2MzMwNDg1NTgsImV4cCI6MTYzMzA0OTQ1OH0.Ec1_7Ge3xtb_KKuY0reSXWnloEyRYRtJnqygViI3Wbo
+
+
+{
+  "currentPassword": "jhjfg#3Djghklk", 
+  "password": "1aA!1111"
+}
+
+### reset new password
+POST   http://localhost:8000/api/v1/user/reset-password
+Content-Type: application/json
+  
+{
+  "otp": "800518" ,
+  "email": "a@a.com",
+  "password": "1aA!1111"
+}
+
+  # "password": "1aA!1112"
 
 
 #################### category router
@@ -48,9 +82,10 @@ GET  http://localhost:8000/api/v1/category/
 ### Post new category
 POST http://localhost:8000/api/v1/category
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2MzI1Mzk0MDgsImV4cCI6MTYzMjU0MDMwOH0.8KBm2s0dNqXo32a81DkD5_tMHKardj1LngBGwco5X2I
 
 {
-  "name": "Furniture",
+  "name": "Furniturexss",
   "parentCat": null
 }
 
@@ -68,13 +103,40 @@ Content-Type: application/json
 ### Delete category
 DELETE   http://localhost:8000/api/v1/category/61452aadf990131366c010f3
 
-# Electronic
-# => Monile
-# => Monitors
 
-# Accessories
 
-# Grocery
-#=> Meat
-# => Milk
+################### TOKEN ROUTERES
 
+### get new accessrefresh token
+GET http://localhost:8000/api/v1/token
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2MzI2MDkxODIsImV4cCI6MTYzNTIwMTE4Mn0.cN8iujB_FN5d32XT4-e4xs6tzEGdHERhRCIhI61hrGU
+ 
+
+### user forget password opt request
+POST   http://localhost:8000/api/v1/token/request-otp
+Content-Type: application/json
+
+{
+  "email": "aaa@gmail.com" 
+}
+
+
+
+
+# =========== payment apis ================
+
+
+### get payment methods
+POST   http://localhost:8000/api/v1/payment-option
+
+
+### add new payment OPTIONS  
+POST   http://localhost:8000/api/v1/payment-option
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2MzM3NDUzMzUsImV4cCI6MTYzMzc0NjIzNX0.PC4keUS7mGkFtZ8AJMHuq-wqJtVQFAB7baSW-Kh9PvA
+Content-Type: application/json
+
+{
+  "status": false,
+  "name": "Bank Transfer",
+  "info": "Please remit the fund to the following account \n  ACC: 4654646, BSB: 8795654"
+}

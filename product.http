@@ -1,0 +1,22 @@
+# Product api lists
+
+### fetch single or all products
+GET  http://localhost:8000/api/v1/product/
+
+
+
+//title", "price, salePric, saleStartDate, saleEndData brand, qty, status, thumbnail, images, description, categories, slug, 
+### add new product
+POST  http://localhost:8000/api/v1/product
+Content-Type: application/json
+
+{
+  "title" : "Iphone 11", 
+  "price" : 2000, 
+  "salePrice" : 1100, 
+  "saleStartDate" : null, 
+  "saleEndData": null,
+   "brand" : "Samsung",
+  "qty" : 50,
+  "description" : "jslf asfjlsa flasdflsadjll jslf"
+}
